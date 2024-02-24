@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using WebApiPracticas.Models;
 
-namespace WebApplication1.Controllers
+namespace WebApiPracticas.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
