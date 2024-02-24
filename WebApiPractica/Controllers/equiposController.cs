@@ -1,22 +1,30 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApiPracticas.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using WebApiPracticas.Models;
 
-namespace WebApiPractica.Controllers
+namespace WebApplication1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class equiposController : ControllerBase
     {
+
         private readonly equiposContext _equiposContexto;
+
 
         public equiposController(equiposContext equiposContexto)
         {
             _equiposContexto = equiposContexto;
+
+
         }
-        //EndPoint que retorna el listado de todos los equipos existentes
+
+        /// <summary>
+        /// EndPoint que retorna el lisado de todos los equipos existentes 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetAll")]
 
@@ -24,13 +32,14 @@ namespace WebApiPractica.Controllers
         {
             List<equipos> listadoEquipo = (from e in _equiposContexto.equipos
                                            select e).ToList();
+
             if (listadoEquipo.Count() == 0)
             {
                 return NotFound();
             }
-
             return Ok(listadoEquipo);
         }
+
         /// <summary>
         /// EndPoint que retorna el lisado de todos los equipos existentes 
         /// </summary>
@@ -51,6 +60,8 @@ namespace WebApiPractica.Controllers
             }
             return Ok(equipo);
         }
+
+
         /// <summary>
         /// EndPoint que retorna los registros de todos los equipos existentes 
         /// </summary>
@@ -71,8 +82,13 @@ namespace WebApiPractica.Controllers
             }
             return Ok(equipo);
         }
-       
-        [HttpGet]
+
+        /// <summary>
+        /// EndPoint que crea los registros de todos los equipos existentes 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
         [Route("Add")]
 
         public IActionResult GuadarEquipo([FromBody] equipos equipo)
@@ -93,8 +109,8 @@ namespace WebApiPractica.Controllers
 
             }
 
-
         }
+
         [HttpPut]
         [Route("actualizar/{id}")]
         public IActionResult ActualizarEquipo(int id, [FromBody] equipos equipoModificar)
@@ -125,6 +141,8 @@ namespace WebApiPractica.Controllers
 
             return Ok(equipoModificar);
         }
+
+
         [HttpDelete]
         [Route("eliminar/{id}")]
 
@@ -148,5 +166,5 @@ namespace WebApiPractica.Controllers
         }
 
     }
-}
 
+}
