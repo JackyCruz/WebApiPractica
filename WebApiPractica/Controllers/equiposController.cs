@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using WebApiPracticas.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApiPracticas.Controllers
 {
@@ -10,9 +9,7 @@ namespace WebApiPracticas.Controllers
     [ApiController]
     public class equiposController : ControllerBase
     {
-
         private readonly equiposContext _equiposContexto;
-
 
         public equiposController(equiposContext equiposContexto)
         {
@@ -20,11 +17,7 @@ namespace WebApiPracticas.Controllers
 
 
         }
-
-        /// <summary>
-        /// EndPoint que retorna el lisado de todos los equipos existentes 
-        /// </summary>
-        /// <returns></returns>
+        //EndPoint que retorna el listado de todos los equipos existentes
         [HttpGet]
         [Route("GetAll")]
 
@@ -32,35 +25,32 @@ namespace WebApiPracticas.Controllers
         {
             List<equipos> listadoEquipo = (from e in _equiposContexto.equipos
                                            select e).ToList();
-
             if (listadoEquipo.Count() == 0)
             {
                 return NotFound();
             }
+
             return Ok(listadoEquipo);
         }
-
         /// <summary>
-        /// EndPoint que retorna el lisado de todos los equipos existentes 
+        /// EndPoint que retorna los registros de una tabla filtrados por su ID
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("GetById/{id}")]
-
         public IActionResult Get(int id)
         {
             equipos? equipo = (from e in _equiposContexto.equipos
                                where e.id_equipos == id
                                select e).FirstOrDefault();
-
             if (equipo == null)
             {
                 return NotFound();
             }
+
             return Ok(equipo);
         }
-
 
         /// <summary>
         /// EndPoint que retorna los registros de todos los equipos existentes 
@@ -83,11 +73,6 @@ namespace WebApiPracticas.Controllers
             return Ok(equipo);
         }
 
-        /// <summary>
-        /// EndPoint que crea los registros de todos los equipos existentes 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [HttpPost]
         [Route("Add")]
 
@@ -109,8 +94,8 @@ namespace WebApiPracticas.Controllers
 
             }
 
-        }
 
+        }
         [HttpPut]
         [Route("actualizar/{id}")]
         public IActionResult ActualizarEquipo(int id, [FromBody] equipos equipoModificar)
@@ -141,7 +126,6 @@ namespace WebApiPracticas.Controllers
 
             return Ok(equipoModificar);
         }
-
 
         [HttpDelete]
         [Route("eliminar/{id}")]
